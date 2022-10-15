@@ -7,10 +7,11 @@ import com.RillAuction.dto.AuctionUpdateRequest;
 import com.RillAuction.dto.SearchAuctionRequest;
 import com.RillAuction.entity.AuctionEntity;
 import com.RillAuction.repository.AuctionRepository;
-import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,8 +24,9 @@ public class AuctionServiceImpl implements AuctionService {
     private AuctionRequestValidator auctionRequestValidator;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public AuctionResponse createAuction(AuctionCreateRequest request) {
-        if (auctionRequestValidator.isAuctionRequestValid(request)) {
+        if (!auctionRequestValidator.isAuctionRequestValid(request)) {
             throw new ValidationException("auction exists for given product");
         }
         AuctionEntity entity = new AuctionEntity().setState(AuctionState.CREATED)
@@ -69,6 +71,7 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public AuctionResponse updateAuction(AuctionUpdateRequest request) {
         AuctionEntity entity = auctionRepository.findById(request.getAuctionId()).orElse(null);
         if (entity == null) {
@@ -83,11 +86,13 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AuctionResponse> searchAuction(SearchAuctionRequest request) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AuctionEntity fetchActiveAuction(int auctionId) {
         AuctionEntity entity = auctionRepository.findById(auctionId).orElse(null);
         // just checking whether end time is elapsed and auction not yet ended by scheduler
@@ -98,6 +103,7 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AuctionEntity> fetchAuctionsAwaitingResults() {
         return auctionRepository.fetchAuctionsAwaitingResults();
     }

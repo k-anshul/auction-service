@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface BidRepository extends JpaRepository<BidEntity, Integer> {
 
-    @Query(value = "Select * from BidEntity where auctionId = :auction_id order by bidValue DESC Id ASC LIMIT 1")
-    Optional<BidEntity> findMaxBidForAuction(@Param("auction_id")int auctionId);
+//    @Query(value = "Select b from BidEntity b where b.auctionId = :auction_id order by b.bidValue DESC LIMIT 1")
+    Optional<BidEntity> findFirstByAuctionIdOrderByBidValueDesc(@Param("auction_id")int auctionId);
 
 }

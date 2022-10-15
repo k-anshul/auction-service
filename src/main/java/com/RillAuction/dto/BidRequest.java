@@ -1,8 +1,9 @@
 package com.RillAuction.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class BidRequest {

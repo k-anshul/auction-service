@@ -1,10 +1,11 @@
 package com.RillAuction.dto;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.Valid;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,6 +20,7 @@ public class AuctionCreateRequest {
     private Integer sellerId;
 
     @NotNull
+    @FutureOrPresent
     private LocalDateTime startTime;
 
     @NotNull

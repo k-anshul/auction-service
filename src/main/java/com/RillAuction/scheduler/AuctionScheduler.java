@@ -7,6 +7,7 @@ import com.RillAuction.repository.AuctionResultRepository;
 import com.RillAuction.service.AuctionService;
 import com.RillAuction.service.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
+@EnableScheduling
 public class AuctionScheduler {
     @Autowired
     private AuctionService auctionService;
@@ -24,10 +26,10 @@ public class AuctionScheduler {
     @Autowired
     private AuctionResultRepository auctionResultRepository;
 
-    //repeat after every 60 seconds0
-    @Scheduled(fixedDelay = 60 * 1000)
-    @Transactional
+    //repeat after every 60 seconds
+    @Scheduled(fixedDelay = 1000)
     public void generateAuctionResult() {
+        System.out.println("bingo");
         List<AuctionEntity> auctions = auctionService.fetchAuctionsAwaitingResults();
 
         if (auctions == null || auctions.isEmpty()) {

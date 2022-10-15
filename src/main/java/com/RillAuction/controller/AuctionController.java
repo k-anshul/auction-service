@@ -1,16 +1,14 @@
 package com.RillAuction.controller;
 
-import com.RillAuction.constants.AuctionState;
 import com.RillAuction.dto.AuctionCreateRequest;
 import com.RillAuction.dto.AuctionResponse;
 import com.RillAuction.dto.AuctionUpdateRequest;
 import com.RillAuction.dto.SearchAuctionRequest;
 import com.RillAuction.service.AuctionService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController

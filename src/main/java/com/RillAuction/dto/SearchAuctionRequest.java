@@ -1,9 +1,9 @@
 package com.RillAuction.dto;
 
 import com.RillAuction.constants.AuctionState;
-import jakarta.validation.constraints.Min;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,7 +13,8 @@ public class SearchAuctionRequest {
     @Min(1)
     private Integer sellerId;
 
-    private String name;
+    @Min(1)
+    private Integer auctionId;
 
     private LocalDateTime startTime;
 

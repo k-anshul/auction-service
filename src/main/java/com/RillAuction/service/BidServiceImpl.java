@@ -5,11 +5,11 @@ import com.RillAuction.dto.BidResponse;
 import com.RillAuction.entity.AuctionEntity;
 import com.RillAuction.entity.BidEntity;
 import com.RillAuction.repository.BidRepository;
-import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 
 @Service
@@ -42,7 +42,7 @@ public class BidServiceImpl implements BidService {
 
     @Override
     public BidEntity findMaxBidForAuction(int auctionId) {
-        return bidRepository.findMaxBidForAuction(auctionId).orElse(null);
+        return bidRepository.findFirstByAuctionIdOrderByBidValueDesc(auctionId).orElse(null);
     }
 
     private BidResponse getBidResponse(BidEntity entity) {
