@@ -14,4 +14,4 @@ Extension
 
 1. Non winning bids can be archived after some durations
 2. Store is_winning_flag to quickly retrieve winning 
-
+3. Add UTs
