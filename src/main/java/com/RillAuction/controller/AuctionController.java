@@ -24,7 +24,7 @@ public class AuctionController {
         return auctionService.createAuction(request);
     }
 
-    @PutMapping("/auction/{id}")
+    @PutMapping("/auction/{auctionId}")
     public AuctionResponse updateAuction(@RequestHeader("user-id") int userId,
                                          @PathVariable int auctionId,
                                          @RequestBody @Valid AuctionUpdateRequest request) {
