@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class SearchAuctionRequest {
@@ -13,7 +14,6 @@ public class SearchAuctionRequest {
     @Min(1)
     private Integer sellerId;
 
-    @Min(1)
     private Integer auctionId;
 
     private LocalDateTime startTime;

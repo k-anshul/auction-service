@@ -17,13 +17,9 @@ CREATE TABLE bids (
   bidder_id  INT UNSIGNED NOT NULL,
   bid_time DATETIME NOT NULL default NOW(),
   bid_value DECIMAL not null,
+  is_winning_bid TINYINT not null default 0;
   FOREIGN KEY(auction_id) references auction(id)
 );
 
-CREATE TABLE auction_result (
-  auction_id  INT UNSIGNED NOT NULL,
-  bid_id INT UNSIGNED NOT NULL,
-  FOREIGN KEY(auction_id) references auction(id),
-  FOREIGN KEY(bid_id) references bids(id)
-);
-
+CREATE INDEX idx_auction_id_bid ON bids(auction_id, bid_value);
+CREATE INDEX idx_end_state ON auction(state, end_time);

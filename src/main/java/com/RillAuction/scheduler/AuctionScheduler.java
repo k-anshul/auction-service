@@ -1,48 +1,50 @@
 package com.RillAuction.scheduler;
 
 import com.RillAuction.entity.AuctionEntity;
-import com.RillAuction.entity.AuctionResultEntity;
-import com.RillAuction.entity.BidEntity;
-import com.RillAuction.repository.AuctionResultRepository;
-import com.RillAuction.service.AuctionService;
+import com.RillAuction.repository.AuctionRepository;
+import com.RillAuction.service.AuctionHelper;
 import com.RillAuction.service.BidService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
 @EnableScheduling
 public class AuctionScheduler {
     @Autowired
-    private AuctionService auctionService;
+    private AuctionRepository auctionRepository;
 
     @Autowired
     private BidService bidService;
 
     @Autowired
-    private AuctionResultRepository auctionResultRepository;
+    private AuctionHelper auctionHelper;
+
+    Logger logger = LoggerFactory.getLogger(AuctionScheduler.class);
 
     //repeat after every 60 seconds
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 60*1000)
+    @Transactional
     public void generateAuctionResult() {
-        System.out.println("bingo");
-        List<AuctionEntity> auctions = auctionService.fetchAuctionsAwaitingResults();
+        logger.info("starting scheduler");
+        auctionRepository.completeApplicableAuctions();
 
+        List<AuctionEntity> auctions = auctionRepository.fetchAuctionsAwaitingResults();
         if (auctions == null || auctions.isEmpty()) {
+            logger.info("no auctions to be completed");
             return;
         }
 
-        for (AuctionEntity auction : auctions) {
-            BidEntity highestBid = bidService.findMaxBidForAuction(auction.getId());
-            AuctionResultEntity result = new AuctionResultEntity()
-                    .setAuctionId(auction.getId())
-                    .setBidId(highestBid == null ? null : highestBid.getId());
+        logger.info("auction size {}", auctions.size());
 
-            auctionResultRepository.save(result);
+        for (AuctionEntity auction : auctions) {
+            auctionHelper.generateResultForAuction(auction);
         }
     }
 }

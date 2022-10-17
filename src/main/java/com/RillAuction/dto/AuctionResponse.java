@@ -24,4 +24,6 @@ public class AuctionResponse {
     private AuctionState auctionState;
 
     private int extensionNumber;
+
+    private BidResponse highestBid;
 }

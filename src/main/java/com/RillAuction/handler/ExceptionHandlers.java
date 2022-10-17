@@ -11,10 +11,11 @@ import javax.validation.ValidationException;
 @ControllerAdvice
 public class ExceptionHandlers {
     @ExceptionHandler
+    //todo :: add proper validation msg
     public ResponseEntity<Object> handle(ValidationException ex) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode json = mapper.createObjectNode();
-        json.put("error", ex.getMessage());
+        json.put("error", ex.toString());
         return ResponseEntity.badRequest()
                 .body(json);
     }

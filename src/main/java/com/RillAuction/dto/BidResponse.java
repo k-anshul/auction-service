@@ -1,12 +1,10 @@
 package com.RillAuction.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.experimental.Accessors;
 
-@Getter
-@Setter
 @Accessors(chain = true)
+@Data
 public class BidResponse {
     private int auctionId;
 
@@ -15,4 +13,6 @@ public class BidResponse {
     private float bidValue;
 
     private int bidId;
+
+    private boolean isWinningBid;
 }

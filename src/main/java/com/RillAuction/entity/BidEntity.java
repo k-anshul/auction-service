@@ -27,4 +27,7 @@ public class BidEntity implements Serializable {
 
     @Column(name = "bid_value", nullable = false, updatable = false)
     private float bidValue;
+
+    @Column(name = "is_winning_bid")
+    private int isWinningBid;
 }

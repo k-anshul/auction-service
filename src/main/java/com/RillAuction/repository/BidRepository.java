@@ -6,12 +6,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface BidRepository extends JpaRepository<BidEntity, Integer> {
 
-//    @Query(value = "Select b from BidEntity b where b.auctionId = :auction_id order by b.bidValue DESC LIMIT 1")
+    /**
+     * finds highest bid for auction
+     * @param auctionId
+     * @return
+     */
     Optional<BidEntity> findFirstByAuctionIdOrderByBidValueDesc(@Param("auction_id")int auctionId);
 
+    List<BidEntity> findByBidderId(@Param("bidder_id")int bidderId);
+
+    @Query("select b from BidEntity b where b.isWinningBid = 1")
+    Optional<BidEntity> findWinningBidByAuctionId(@Param("auction_id")int auctionId);
 }

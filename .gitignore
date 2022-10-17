@@ -32,6 +32,6 @@ build/
 .mvn/
 mvnw
 mvnw.cmd
-
+.ssh/
 ### VS Code ###
 .vscode/
