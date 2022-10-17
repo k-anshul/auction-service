@@ -11,8 +11,7 @@ public class BidRequest {
     @Min(1)
     private int auctionId;
 
-    @Min(1)
-    @NotNull
+    //set internally
     private int bidderId;
 
     @NotNull
